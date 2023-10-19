@@ -110,6 +110,16 @@ class BasePage:
         element.clear()
         element.send_keys(text)
 
+    def assert_text_on_page(self, text_to_find):
+        try:
+            WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.TAG_NAME, 'body'))
+            )
+            page_text = self.driver.find_element(By.TAG_NAME, 'body').text
+            assert text_to_find in page_text, f"Текст '{text_to_find}' не найден на странице."
+        except WebDriverException:
+            assert False, f"Произошла ошибка при поиске текста '{text_to_find}' на странице."
+
     # Очистка поля ввода
     def clear(self, locator):
         element = self.wait_for_visible(locator)
@@ -143,7 +153,8 @@ class BasePage:
         element = Select(self.driver.find_element(By.XPATH, locator))
         element.select_by_value(value)
 
-    # "Жесткий" клик на элементе
+        # "Жесткий" клик на элементе
+
     def hard_click(self, locator):
         element = self.driver.find_element(By.XPATH, locator)
         self.driver.execute_script("arguments[0].click();", element)
