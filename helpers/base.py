@@ -365,8 +365,14 @@ class BasePage:
     def get_current_url(self):
         return self.driver.current_url
 
+    def get_current_url_1(self):
+        current_url = self.driver.current_url
+        print("URL открывшейся страницы:", current_url)
+        return current_url
+
     # Проверка равенства текущего URL ожидаемому
-    def assert_url_matches(self, expected_url):
+    def assert_url_matches(self, expected_url, timeout=10):
+        WebDriverWait(self.driver, timeout).until(EC.url_to_be(expected_url))
         current_url = self.get_current_url()
         assert current_url == expected_url, f"Ожидаемый URL: '{expected_url}', Фактический URL: '{current_url}'"
 
