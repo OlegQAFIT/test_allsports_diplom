@@ -153,8 +153,14 @@ class BasePage:
         element = Select(self.driver.find_element(By.XPATH, locator))
         element.select_by_value(value)
 
-        # "Жесткий" клик на элементе
+    def click_and_select_option_in_dropdown(self, dropdown_locator, option_locator):
+        dropdown = self.driver.find_element(By.XPATH, dropdown_locator)
+        dropdown.click()
 
+        option = self.driver.find_element(By.XPATH, option_locator)
+        option.click()
+
+    # "Жесткий" клик на элементе
     def hard_click(self, locator):
         element = self.driver.find_element(By.XPATH, locator)
         self.driver.execute_script("arguments[0].click();", element)
