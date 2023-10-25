@@ -16,11 +16,11 @@ def test_submitting_the_form(driver):
     send_form.clc_get_1()
     send_form.drop_clc()
     send_form.fill_form(
-        send_form.email_locator,
-        send_form.name_locator,
-        send_form.phone_locator,
-        send_form.city_locator,
-        send_form.employe_locator
+        send_form.EMAIL,
+        send_form.NAME,
+        send_form.PHONE,
+        send_form.CITY,
+        send_form.EMPLOYEE
     )
     send_form.clc_get_2()
     send_form.assert_form()
@@ -52,11 +52,11 @@ def test_submitting_the_form_2(driver):
     send_form.clc_get_1()
     send_form.drop_clc()
     send_form.fill_form(
-        send_form.email_locator,
-        send_form.name_locator,
-        send_form.phone_locator,
-        send_form.city_locator,
-        send_form.employe_locator
+        send_form.EMAIL,
+        send_form.NAME,
+        send_form.PHONE,
+        send_form.CITY,
+        send_form.EMPLOYEE
     )
     send_form.clc_get_2()
     send_form.assert_form()
@@ -107,3 +107,4 @@ def test_supplier_in_grodno(driver):
     grodno_supplier.select_activ_1()
     grodno_supplier.select_possibilities()
     grodno_supplier.select_possibilities_1()
+    grodno_supplier.assert_found_supplier()
