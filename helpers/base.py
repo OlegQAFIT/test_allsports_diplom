@@ -23,8 +23,7 @@ class BasePage:
         alert = Alert(self.driver)
         alert.accept()
 
-        # Обрабатывает Confirmation Alert и нажимает "Отмена" для отклонения.
-
+    # Обрабатывает Confirmation Alert и нажимает "Отмена" для отклонения.
     def alert_dismiss(self):
         alert = Alert(self.driver)
         alert.dismiss()
@@ -215,6 +214,9 @@ class BasePage:
     # Переключение на родительское окно
     def switch_to_parent_window(self):
         self.driver.switch_to.window(self.driver.window_handles[0])
+
+    def switch_to_new_window(self):
+        self.driver.switch_to.window(self.driver.window_handles[1])
 
     # Открытие в новом окне
     def open_new_window(self):
