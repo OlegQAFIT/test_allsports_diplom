@@ -35,6 +35,9 @@ class MainPage(BasePage):
     SUPPLIER = '//button[contains(text(), "Школа плавания (Дворец творчества детей и молодёжи)]'
     SUPPLIER_2 = '//button[contains(text(), "Бассейн “Волна”")]'
 
+    OBJECTS = '//div[@class="table_amount"]/span[1][@class="big_font"]'
+    ACTIVITIS = '//div[@class="table_amount"]/span[2][@class="big_font"]'
+
     def __init__(self, driver):
         self.text_employe = 'Олег'
         self.text_city = 'Минск'
@@ -157,3 +160,21 @@ class MainPage(BasePage):
 
         for locator, found_text in found_elements:
             print(f"Найден элемент с локатором '{locator}' и текстом '{found_text}'")
+
+    @allure.step("Search and correct quantity display ojects")
+    def assert_compare_number_ojects(self):
+        actual_value = self.get_number_from_element(self.OBJECTS)
+        expected_value = 561
+        if actual_value < expected_value:
+            print("Число в элементе меньше ожидаемого значения.")
+        else:
+            print("Число в элементе НЕ меньше ожидаемого значения.")
+
+    @allure.step("Search and correct quantity display activitis")
+    def assert_compare_number_activitis(self):
+        actual_value = self.get_number_from_element(self.ACTIVITIS)
+        expected_value = 59
+        if actual_value < expected_value:
+            print("Число в элементе меньше ожидаемого значения.")
+        else:
+            print("Число в элементе НЕ меньше ожидаемого значения.")

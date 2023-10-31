@@ -108,3 +108,16 @@ def test_supplier_in_grodno(driver):
     grodno_supplier.select_possibilities()
     grodno_supplier.select_possibilities_1()
     grodno_supplier.assert_found_supplier()
+
+
+@allure.feature('Element on page')
+@allure.severity('Normal')
+@allure.story('Checking Numbers')
+def test_actual_value(driver):
+    """
+    Test to check actual values.
+    """
+    actual_value = MainPage(driver)
+    actual_value.open()
+    actual_value.assert_compare_number_ojects()
+    actual_value.assert_compare_number_activitis()

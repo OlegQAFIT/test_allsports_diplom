@@ -415,3 +415,9 @@ class BasePage:
     # Проверка, что число меньше определенного значения
     def assert_number_less_than(self, actual_number, expected_number):
         assert actual_number < expected_number, f"Ожидалось число меньше {expected_number}, получено {actual_number}"
+
+    def get_number_from_element(self, locator):
+        element = self.driver.find_element(By.XPATH, locator)
+        text = element.text
+        number = int(''.join(filter(str.isdigit, text)))  # Извлекаем числа из текста
+        return number
