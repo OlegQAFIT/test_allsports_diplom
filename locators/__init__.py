@@ -1,0 +1,1 @@
+from locators.for_objects_page import ObjectsPageLocators
