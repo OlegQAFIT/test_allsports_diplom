@@ -1,0 +1,1 @@
+from locators.for_Become_partner import BecomePartnerLocators
