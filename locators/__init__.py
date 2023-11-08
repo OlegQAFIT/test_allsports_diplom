@@ -1,0 +1,1 @@
+from locators.for_subscription_types import SubscriptionTypesLocators
