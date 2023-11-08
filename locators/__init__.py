@@ -1,0 +1,1 @@
+from locators.for_footer_testing import FooterLocators
