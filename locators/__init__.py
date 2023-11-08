@@ -1,0 +1,1 @@
+from locators.for_contacts_page import ContactsLocators
