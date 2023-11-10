@@ -20,21 +20,6 @@ class SubscriptionTypes(BasePage, SubscriptionTypesLocators):
     def click_subscription_types_tab(self):
         self.hard_click(self.BUTTON_SUBSCRIPTION_TYPES_TAB)
 
-    @allure.step("Assert Found Elements on Subscription Types Page")
-    def assert_found_elements_on_subscription_types_page(self):
-        elements_to_check = [
-            (self.ELEMENT_ON_SUBSCRIPTION_TYPES_PAGE, 'Типы подписки'),
-            (self.ELEMENT_ON_SUBSCRIPTION_TYPES_PAGE_1, 'Gold'),
-            (self.ELEMENT_ON_SUBSCRIPTION_TYPES_PAGE_2, 'Количество объектов'),
-            (self.ELEMENT_ON_SUBSCRIPTION_TYPES_PAGE_3, 'Заказать'),
-            (self.ELEMENT_ON_SUBSCRIPTION_TYPES_PAGE_4, 'Активности'),
-            (self.ELEMENT_ON_SUBSCRIPTION_TYPES_PAGE_5, 'Количество посещений в месяц'),
-            (self.ELEMENT_ON_SUBSCRIPTION_TYPES_PAGE_6, 'Период отмены')
-        ]
-
-        for element, expected_text in elements_to_check:
-            self.assert_element_text_equal(element, expected_text)
-
     @allure.step("Find Element")
     def find_element(self):
         self.wait_for_element_is_displayed(self.SILVER_LEVEL)
@@ -154,3 +139,18 @@ class SubscriptionTypes(BasePage, SubscriptionTypesLocators):
         current_url = self.get_current_url()
         print("Текущий URL (instagram):", current_url)
         assert self.get_current_url() == 'http://rgolympic.by/'
+
+    @allure.step("Assert Found Elements on Subscription Types Page")
+    def assert_found_elements_on_subscription_types_page(self):
+        elements_to_check = [
+            (self.ELEMENT_ON_SUBSCRIPTION_TYPES_PAGE, 'Типы подписки'),
+            (self.ELEMENT_ON_SUBSCRIPTION_TYPES_PAGE_1, 'Gold'),
+            (self.ELEMENT_ON_SUBSCRIPTION_TYPES_PAGE_2, 'Количество объектов'),
+            (self.ELEMENT_ON_SUBSCRIPTION_TYPES_PAGE_3, 'Заказать'),
+            (self.ELEMENT_ON_SUBSCRIPTION_TYPES_PAGE_4, 'Активности'),
+            (self.ELEMENT_ON_SUBSCRIPTION_TYPES_PAGE_5, 'Количество посещений в месяц'),
+            (self.ELEMENT_ON_SUBSCRIPTION_TYPES_PAGE_6, 'Период отмены')
+        ]
+
+        for element, expected_text in elements_to_check:
+            self.assert_element_text_equal(element, expected_text)
