@@ -7,7 +7,6 @@ from locators import MainPageLocators
 
 class MainPage(BasePage, MainPageLocators):
 
-
     def __init__(self, driver):
         self.text_employe = 'Олег'
         self.text_city = 'Минск'
