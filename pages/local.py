@@ -8,6 +8,7 @@ class Local(BasePage, LocalLocators):
     def __init__(self, driver):
         self.driver = driver
 
+    # Methods for page navigation
     @allure.step("Click on 'ALLSPORTS' page")
     def open(self):
         self.driver.get('https://www.allsports.fit/by/')
@@ -36,6 +37,7 @@ class Local(BasePage, LocalLocators):
     def click_on_contacts_page(self):
         self.hard_click(self.CONTACTS)
 
+    # Methods for selecting language locales
     @allure.step("Select Armenian locale from the dropdown")
     def drop_click_local_am(self):
         self.hard_click(self.LOCAL)
@@ -51,6 +53,7 @@ class Local(BasePage, LocalLocators):
         self.hard_click(self.LOCAL)
         self.hard_click(self.LOCAL_RU)
 
+    # Methods for checking language locales
     @allure.step("Asserting no Russian words on Armenian locale")
     def assert_no_russian_words_on_am_locale(self):
         super().found_other_language_words('ru')
