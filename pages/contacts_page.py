@@ -6,20 +6,28 @@ from selenium.webdriver.support import expected_conditions as EC
 from helpers import BasePage
 from locators import ContactsLocators
 
-
 class Contacts(BasePage, ContactsLocators):
 
     def __init__(self, driver):
         self.driver = driver
+        self.fake = Faker()
+        self.company = self.fake.company()
+        self.city = self.fake.city()
+        self.name = self.fake.name()
+        self.phone = self.fake.phone_number()
+        self.email = self.fake.email()
 
+    # Methods for page navigation
     @allure.step("Click on 'ALLSPORTS' page")
     def open(self):
         self.driver.get('https://www.allsports.fit/by/')
 
-    @allure.step("Click on 'Become а Partner' Tab")
+    # Methods for interacting with the 'Contacts' tab
+    @allure.step("Click on 'Become a Partner' Tab")
     def click_contacts_tab(self):
         self.hard_click(self.BUTTON_CONTACTS_TAB)
 
+    # Methods for asserting elements on the 'Contacts' page
     @allure.step("Assert Current URL of the Page")
     def assert_current_url_page(self):
         expected_url = 'https://www.allsports.fit/by/contact/'
@@ -45,20 +53,11 @@ class Contacts(BasePage, ContactsLocators):
 
     @allure.step("Assert Found Clickable Button")
     def assert_found_clickable_buttom(self):
-        self.wait_for_element_is_displayed(self.BUTTON_1)
-        self.wait_for_element_is_displayed(self.BUTTON_2)
-        self.wait_for_element_is_displayed(self.BUTTON_3)
-        self.wait_for_element_is_displayed(self.BUTTON_4)
-        self.wait_for_element_is_displayed(self.BUTTON_5)
-        self.wait_for_element_is_displayed(self.BUTTON_6)
+        buttons_to_check = [self.BUTTON_1, self.BUTTON_2, self.BUTTON_3, self.BUTTON_4, self.BUTTON_5, self.BUTTON_6]
+        for button in buttons_to_check:
+            self.wait_for_element_is_displayed(button)
 
-    fake = Faker()
-    company = fake.company()
-    city = fake.city()
-    name = fake.name()
-    phone = fake.phone_number()
-    email = fake.email()
-
+    # Methods for filling and interacting with the form
     @allure.step("Fill Form")
     def fill_form(self, name_company=None, phone_number=None, city_locator=None, name_employ=None, email_locator=None):
         self.fill(name_company or self.NAME_COMPANY, self.company)
