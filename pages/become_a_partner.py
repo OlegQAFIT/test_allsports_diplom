@@ -1,6 +1,7 @@
 import allure
 import time
-
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from helpers import BasePage
 from locators import BecomePartnerLocators
 
@@ -31,27 +32,12 @@ class BecomePartner(BasePage, BecomePartnerLocators):
         for element, expected_text in elements_to_check:
             self.assert_element_text_equal(element, expected_text)
 
-    @allure.step("Assert Current URL of the Page")
-    def assert_current_url_page(self):
-        expected_url = 'https://www.allsports.fit/by/affiliates/'
-        current_url = self.get_current_url()
-        print("Текущий URL (affiliates):", current_url)
-        assert current_url == expected_url, f"Ожидаемый URL: {expected_url}, текущий URL: {current_url}"
-
-    @allure.step("Assert Found Clickable Button")
-    def assert_found_clickable_buttom(self):
-        self.wait_for_element_is_displayed(self.BUTTON_1)
-        self.wait_for_element_is_displayed(self.BUTTON_2)
-        self.wait_for_element_is_displayed(self.BUTTON_3)
-        self.wait_for_element_is_displayed(self.BUTTON_4)
-
     @allure.step("Enter Email")
     def enter_email(self):
         self.fill(self.EMAIL, self.EMAIL_TEXT)
 
     @allure.step("Fill Form")
-    def fill_form(self, COMPANY, TYPE_SERVICE, PHONE,
-                  CITY, NAME, EMAIL):
+    def fill_form(self, COMPANY, TYPE_SERVICE, PHONE, CITY, NAME, EMAIL):
         self.fill(COMPANY, self.COMPANY_TEXT)
         self.fill(TYPE_SERVICE, self.TYPE_SERVICE_TEXT)
         self.fill(PHONE, self.PHONE_TEXT)
@@ -70,4 +56,19 @@ class BecomePartner(BasePage, BecomePartnerLocators):
     @allure.step("Assert Form Submission")
     def assert_form(self):
         time.sleep(2)
-        self.handle_alert("Спасибо! Мы скоро свяжемся с вами!")
+        self.handle_alert("Спасибо! Мы скоро свяжемся с вами!") \
+
+    @allure.step("Assert Current URL of the Page")
+    def assert_current_url_page(self):
+        expected_url = 'https://www.allsports.fit/by/affiliates/'
+        WebDriverWait(self.driver, 10).until(EC.url_to_be(expected_url))
+        current_url = self.get_current_url()
+        print("Текущий URL (affiliates):", current_url)
+        assert current_url == expected_url, f"Ожидаемый URL: {expected_url}, текущий URL: {current_url}"
+
+
+    @allure.step("Assert Found Clickable Button")
+    def assert_found_clickable_buttom(self):
+        buttons_to_check = [self.BUTTON_1, self.BUTTON_2, self.BUTTON_3, self.BUTTON_4]
+        for button in buttons_to_check:
+            self.wait_for_element_is_displayed(button)
