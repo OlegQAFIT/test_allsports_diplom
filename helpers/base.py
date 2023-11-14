@@ -1,6 +1,8 @@
 from tkinter.tix import Select
-
+import re
+from charset_normalizer import detect
 from selenium.common import WebDriverException
+from selenium.common import WebDriverException, ElementClickInterceptedException
 from selenium.webdriver import ActionChains, Keys
 from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.support.wait import WebDriverWait
@@ -23,8 +25,7 @@ class BasePage:
         alert = Alert(self.driver)
         alert.accept()
 
-        # Обрабатывает Confirmation Alert и нажимает "Отмена" для отклонения.
-
+    # Обрабатывает Confirmation Alert и нажимает "Отмена" для отклонения.
     def alert_dismiss(self):
         alert = Alert(self.driver)
         alert.dismiss()
@@ -153,8 +154,14 @@ class BasePage:
         element = Select(self.driver.find_element(By.XPATH, locator))
         element.select_by_value(value)
 
-        # "Жесткий" клик на элементе
+    def click_and_select_option_in_dropdown(self, dropdown_locator, option_locator):
+        dropdown = self.driver.find_element(By.XPATH, dropdown_locator)
+        dropdown.click()
 
+        option = self.driver.find_element(By.XPATH, option_locator)
+        option.click()
+
+    # "Жесткий" клик на элементе
     def hard_click(self, locator):
         element = self.driver.find_element(By.XPATH, locator)
         self.driver.execute_script("arguments[0].click();", element)
@@ -200,6 +207,11 @@ class BasePage:
         else:
             raise Exception(f"Недопустимый индекс окна: {index}")
 
+
+
+    def switch_to_new_window(self):
+        self.driver.switch_to.window(self.driver.window_handles[1])
+
     # Закрытие текущего окна
     # Закрытие текущего окна
     def close_current_window(self):
@@ -209,6 +221,9 @@ class BasePage:
     # Переключение на родительское окно
     def switch_to_parent_window(self):
         self.driver.switch_to.window(self.driver.window_handles[0])
+
+    def switch_to_new_window(self):
+        self.driver.switch_to.window(self.driver.window_handles[1])
 
     # Открытие в новом окне
     def open_new_window(self):
@@ -270,6 +285,13 @@ class BasePage:
     # Переключение на основной контент страницы
     def switch_to_default_content(self):
         self.driver.switch_to.default_content()
+
+    def is_element_clickable(driver, element):
+        try:
+            element.click()
+            return True
+        except ElementClickInterceptedException:
+            return False
 
     """
     Другие действия с элементами:
@@ -359,8 +381,14 @@ class BasePage:
     def get_current_url(self):
         return self.driver.current_url
 
+    def get_current_url_1(self):
+        current_url = self.driver.current_url
+        print("URL открывшейся страницы:", current_url)
+        return current_url
+
     # Проверка равенства текущего URL ожидаемому
-    def assert_url_matches(self, expected_url):
+    def assert_url_matches(self, expected_url, timeout=10):
+        WebDriverWait(self.driver, timeout).until(EC.url_to_be(expected_url))
         current_url = self.get_current_url()
         assert current_url == expected_url, f"Ожидаемый URL: '{expected_url}', Фактический URL: '{current_url}'"
 
@@ -409,3 +437,36 @@ class BasePage:
     # Проверка, что число меньше определенного значения
     def assert_number_less_than(self, actual_number, expected_number):
         assert actual_number < expected_number, f"Ожидалось число меньше {expected_number}, получено {actual_number}"
+
+    def check_for_words(self, language='russian'):
+        page_text = self.driver.page_source
+
+        if language == 'russian':
+            pattern = re.compile(r'\b[А-Яа-я]+\b', re.IGNORECASE)
+        elif language == 'english':
+            pattern = re.compile(r'\b[A-Za-z]+\b')
+        elif language == 'armenian':
+            pattern = re.compile(r'\b[\u0531-\u0587\u0561-\u0587]+\b')
+        elif language == 'lithuanian':
+            pattern = re.compile(r'\b[A-Za-zĄąČčĘęĖėĮįŠšŲųŪūŽž]+\b')
+        else:
+            raise ValueError(f"Unsupported language: {language}")
+
+        words = pattern.findall(page_text)
+
+        assert words, f"No {language} words found on the page"
+        assert len(words) > 0, f"No {language} words found on the page"
+        return words  # Возвращаем найденные слова
+
+    def found_other_language_words(self, language_code='ru'):
+        page_text = self.driver.page_source.encode('utf-8')  # Преобразование в байтовый формат
+        detected_language = detect(page_text)
+        assert detected_language != language_code, f"{language_code} words found on the page"
+
+
+
+    def get_number_from_element(self, locator):
+        element = self.driver.find_element(By.XPATH, locator)
+        text = element.text
+        number = int(''.join(filter(str.isdigit, text)))  # Извлекаем числа из текста
+        return number
