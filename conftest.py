@@ -19,7 +19,7 @@ def pytest_addoption(parser):
                      default='False',
                      help='headless options: "yes" or "no"')
     parser.addoption('--b',
-                     default='edge',
+                     default='chrome',
                      help='option to define type of browser')
 
 

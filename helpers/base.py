@@ -1,7 +1,6 @@
-from tkinter.tix import Select
+from selenium.webdriver.support.ui import Select
 import re
 from charset_normalizer import detect
-from selenium.common import WebDriverException
 from selenium.common import WebDriverException, ElementClickInterceptedException
 from selenium.webdriver import ActionChains, Keys
 from selenium.webdriver.common.alert import Alert
