@@ -1,3 +1,4 @@
+from locators.for_header_testing import HeaderLocators
 from locators.for_objects_page import ObjectsPageLocators
 from locators.for_Become_partner import BecomePartnerLocators
 from locators.for_contacts_page import ContactsLocators
