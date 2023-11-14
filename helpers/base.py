@@ -23,8 +23,7 @@ class BasePage:
         alert = Alert(self.driver)
         alert.accept()
 
-        # Обрабатывает Confirmation Alert и нажимает "Отмена" для отклонения.
-
+    # Обрабатывает Confirmation Alert и нажимает "Отмена" для отклонения.
     def alert_dismiss(self):
         alert = Alert(self.driver)
         alert.dismiss()
@@ -110,6 +109,16 @@ class BasePage:
         element.clear()
         element.send_keys(text)
 
+    def assert_text_on_page(self, text_to_find):
+        try:
+            WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.TAG_NAME, 'body'))
+            )
+            page_text = self.driver.find_element(By.TAG_NAME, 'body').text
+            assert text_to_find in page_text, f"Текст '{text_to_find}' не найден на странице."
+        except WebDriverException:
+            assert False, f"Произошла ошибка при поиске текста '{text_to_find}' на странице."
+
     # Очистка поля ввода
     def clear(self, locator):
         element = self.wait_for_visible(locator)
@@ -142,6 +151,13 @@ class BasePage:
     def dropdown_select(self, locator, value):
         element = Select(self.driver.find_element(By.XPATH, locator))
         element.select_by_value(value)
+
+    def click_and_select_option_in_dropdown(self, dropdown_locator, option_locator):
+        dropdown = self.driver.find_element(By.XPATH, dropdown_locator)
+        dropdown.click()
+
+        option = self.driver.find_element(By.XPATH, option_locator)
+        option.click()
 
     # "Жесткий" клик на элементе
     def hard_click(self, locator):
@@ -203,6 +219,9 @@ class BasePage:
     # Переключение на родительское окно
     def switch_to_parent_window(self):
         self.driver.switch_to.window(self.driver.window_handles[0])
+
+    def switch_to_new_window(self):
+        self.driver.switch_to.window(self.driver.window_handles[1])
 
     # Открытие в новом окне
     def open_new_window(self):
@@ -360,8 +379,14 @@ class BasePage:
     def get_current_url(self):
         return self.driver.current_url
 
+    def get_current_url_1(self):
+        current_url = self.driver.current_url
+        print("URL открывшейся страницы:", current_url)
+        return current_url
+
     # Проверка равенства текущего URL ожидаемому
-    def assert_url_matches(self, expected_url):
+    def assert_url_matches(self, expected_url, timeout=10):
+        WebDriverWait(self.driver, timeout).until(EC.url_to_be(expected_url))
         current_url = self.get_current_url()
         assert current_url == expected_url, f"Ожидаемый URL: '{expected_url}', Фактический URL: '{current_url}'"
 
