@@ -1,1 +1,2 @@
 from locators.for_subscription_types import SubscriptionTypesLocators
+from locators.for_footer_testing import FooterLocators
