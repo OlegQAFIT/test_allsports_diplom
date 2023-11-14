@@ -464,3 +464,9 @@ class BasePage:
         assert detected_language != language_code, f"{language_code} words found on the page"
 
 
+
+    def get_number_from_element(self, locator):
+        element = self.driver.find_element(By.XPATH, locator)
+        text = element.text
+        number = int(''.join(filter(str.isdigit, text)))  # Извлекаем числа из текста
+        return number
