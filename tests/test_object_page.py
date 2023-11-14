@@ -18,7 +18,7 @@ def test_checking_current_page_url(driver):
 
 @allure.feature('Object Page')
 @allure.severity('Normal')
-@allure.story('Finding Actual Elements on Main Page')
+@allure.story('Finding Actual Elements on "Main" Page')
 def test_found_actual_elements_on_main_page(driver):
     """
     This test checks if the expected elements are present on the main page of the object page.
@@ -44,7 +44,7 @@ def test_checking_element_enabled(driver):
 
 @allure.feature('Object Page')
 @allure.severity('Critical')
-@allure.story('Submitting the Form on Object Page')
+@allure.story('Submitting the Form on "Object" Page')
 def test_submitting_the_form_on_object_page(driver):
     """
     This test checks the functionality of submitting a form for sending a message for an offer.
@@ -54,11 +54,11 @@ def test_submitting_the_form_on_object_page(driver):
     send_form.click_on_tab_objects()
     send_form.drop_click()
     send_form.fill_form(
-        send_form.name_company_locator,
-        send_form.phone_number_locator,
-        send_form.city_locator,
-        send_form.name_employ_locator,
-        send_form.email_locator
+        send_form.NAME_COMPANY,
+        send_form.PHONE_NUMBER,
+        send_form.CITY,
+        send_form.NAME_EMPLOY,
+        send_form.EMAIL
     )
     send_form.click_get()
     send_form.assert_form()
@@ -66,7 +66,7 @@ def test_submitting_the_form_on_object_page(driver):
 
 @allure.feature('Object Page')
 @allure.severity('Critical')
-@allure.story('Searching for a Gold Supplier on the Object Page')
+@allure.story('Searching for a Gold Supplier on the "Object" Page')
 def test_search_gold_supplier_on_object_page(driver):
     """
     This test searches for a Gold Supplier on the Object Page and asserts if the element is found.

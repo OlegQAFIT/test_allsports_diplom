@@ -5,32 +5,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 
 from helpers.base import BasePage
+from locators import ObjectsPageLocators
 
 
-class ObjectPage(BasePage):
-    button_object_tab = '//ul/li/a[text()="Объекты"]'
-    expected_url = 'https://www.allsports.fit/by/objects/'
-    text_on_object_page = '//h3[text()="Ваши вопросы и ответы"]'
-    text_on_object_page_2 = '//h3[text()="Подписка в приложении Allsports выгоднее многих абонементов"]'
-    text_on_object_page_3 = '//h3[text()="Начните заниматься спортом со своими коллегами!"]'
-    text_on_object_page_4 = '//button[text()="Получить предложение"]'
-    buttom_call_push = '//a[@class="button blue" and text()="Позвоните нам"]'
-
-    name_company_locator = '//input[@name="company"]'
-
-    number_employe_locator = '//div[@class="select"]//button'
-    text_number_employe = '//button[text()="от 100 до 1000"]'
-
-    phone_number_locator = '//input[@name="phone"]'
-    city_locator = '//input[@name="city"]'
-    name_employ_locator = '//section[2]/form/div[4]/input'
-    email_locator = '//input[@name="email"]'
-
-    subscription_locator = '//button[contains(text(), "Тип подписки")]'
-    gold_level = '//*[@id="gatsby-focus-wrapper"]/main/div/div/div/main/section[1]/div[2]/div[1]/div[1]'
-    impute_search = '//main/section[1]/form/div[2]/div[2]/input'
-    supplier_locator = '//button[@class="result" and text()="Бассейн Гимназии 14"]'
-    found_element = '//main/section[1]/section/section/h1'
+class ObjectPage(BasePage, ObjectsPageLocators):
 
     def __init__(self, driver):
         self.text_company_email = 'test@gmail.com'
@@ -46,39 +24,41 @@ class ObjectPage(BasePage):
 
     @allure.step("Click on 'Objects' Tab")
     def click_on_tab_objects(self):
-        self.hard_click(self.button_object_tab)
+        self.hard_click(self.BUTTON_OBJECT_TAB)
         WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((By.XPATH, '//h3[text()="Ваши вопросы и ответы"]')))
 
     @allure.step("Assert Current Page URL")
     def assert_checking_current_page_url(self):
-        self.assert_url_matches(self.expected_url)
+        self.assert_url_matches(self.EXPECTED_URL)
 
-    @allure.step("Assert Found Elements on Object Page")
+    @allure.step("Assert Found Elements on 'Object' Page")
     def assert_found_elements_on_object_page(self):
         elements_to_check = [
-            (self.text_on_object_page, 'Ваши вопросы и ответы'),
-            (self.text_on_object_page_2, 'Подписка в приложении Allsports выгоднее многих абонементов'),
-            (self.text_on_object_page_3, 'Начните заниматься спортом со своими коллегами!'),
-            (self.text_on_object_page_4, 'Получить предложение')
+            (self.TEXT_ON_OBJECT_PAGE, 'Ваши вопросы и ответы'),
+            (self.TEXT_ON_OBJECT_PAGE_2, 'Подписка в приложении Allsports выгоднее многих абонементов'),
+            (self.TEXT_ON_OBJECT_PAGE_3, 'Начните заниматься спортом со своими коллегами!'),
+            (self.TEXT_ON_OBJECT_PAGE_4, 'Получить предложение')
         ]
+        for element, expected_text in elements_to_check:
+            self.assert_element_text_equal(element, expected_text)
 
-    @allure.step("Assert Active Element on Object Page")
+    @allure.step("Assert Active Element on 'Object' Page")
     def assert_activ_element_on_object_page(self):
-        self.assert_element_enabled(self.buttom_call_push)
+        self.assert_element_enabled(self.BUTTON_CALL_PUSH)
 
     @allure.step("Fill Form")
-    def fill_form(self, name_company_locator, phone_number_locator, city_locator,
-                  name_employ_locator, email_locator):
-        self.fill(name_company_locator, self.text_company_email)
-        self.fill(phone_number_locator, self.text_phone_number)
-        self.fill(city_locator, self.text_city)
-        self.fill(name_employ_locator, self.text_name_employe)
-        self.fill(email_locator, self.text_email)
+    def fill_form(self, NAME_COMPANY, PHONE_NUMBER, CITY,
+                  NAME_EMPLOY, EMAIL):
+        self.fill(NAME_COMPANY, self.text_company_email)
+        self.fill(PHONE_NUMBER, self.text_phone_number)
+        self.fill(CITY, self.text_city)
+        self.fill(NAME_EMPLOY, self.text_name_employe)
+        self.fill(EMAIL, self.text_email)
 
     @allure.step("Click 'Get'")
     def click_get(self):
-        self.hard_click(self.text_on_object_page_4)
+        self.hard_click(self.TEXT_ON_OBJECT_PAGE_4)
 
     @allure.step("Assert Form")
     def assert_form(self):
@@ -87,22 +67,22 @@ class ObjectPage(BasePage):
 
     @allure.step("Click 'Drop'")
     def drop_click(self):
-        self.hard_click(self.number_employe_locator)
-        self.hard_click(self.text_number_employe)
+        self.hard_click(self.NUMBER_EMPLOYE_LOCATOR)
+        self.hard_click(self.TEXT_NUMBER_EMPLOYE)
 
-    @allure.step("Select Gold Level")
+    @allure.step("Select 'Gold' Level")
     def select_gold_level(self):
-        self.hard_click(self.subscription_locator)
-        self.hard_click(self.gold_level)
+        self.hard_click(self.SUBSCRIPTION_LOCATOR)
+        self.hard_click(self.GOLD_LEVEL)
 
     @allure.step("Click 'Search'")
     def found_search_click(self):
-        self.fill(self.impute_search, self.text_impute)
+        self.fill(self.INPUT_SEARCH, self.text_impute)
 
     @allure.step("Click 'Supplier'")
     def click_supplier(self):
-        self.hard_click(self.supplier_locator)
+        self.hard_click(self.SUPPLIER_LOCATOR)
 
     @allure.step("Assert Element")
     def assert_element(self):
-        self.wait_for_element_is_displayed(self.found_element)
+        self.wait_for_element_is_displayed(self.FOUND_ELEMENT)
