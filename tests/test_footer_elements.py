@@ -13,7 +13,7 @@ def test_soc_links_instagram(driver):
     soc_media = FooterElement(driver)
     soc_media.open()
     soc_media.click_on_instagram()
-    soc_media.switch_to_window_by_index(1)
+    soc_media.switch_to_new_window_with_instagram()
     soc_media.assert_instagram()
 
 
@@ -27,8 +27,8 @@ def test_soc_links_linkedin(driver):
     soc_media = FooterElement(driver)
     soc_media.open()
     soc_media.click_on_linkedin()
-    soc_media.switch_to_window_by_index(1)
-    soc_media.assert_linkedin()
+    soc_media.switch_to_new_window_with_linkedin()
+    soc_media.assert_LinkedIn()
 
 
 @allure.feature('Footer Links')
@@ -93,6 +93,8 @@ def test_checking_an_existing_document(driver):
     found_text.open()
     found_text.click_on_agreements_page()
     found_text.assert_dok("Индивидуальные лицензии")
+    found_text.assert_dok("Политика в отношении обработки персональных данных")
+    found_text.assert_dok("Правила доступа в спортивные объекты")
 
 
 @allure.feature('Footer Links')
@@ -145,3 +147,101 @@ def test_with_blog_page(driver):
     check_blog_page.open()
     check_blog_page.click_on_blog_page()
     check_blog_page.assert_element_blog()
+
+
+@allure.feature('Footer Links')
+@allure.severity('critical')
+@allure.story('Checking individual licenses document')
+def test_individual_licenses_doc(driver):
+    """
+    Test to verify the individual licenses document
+    """
+    check_individual_licenses = FooterElement(driver)
+    check_individual_licenses.open()
+    check_individual_licenses.click_on_agreements_page()
+    check_individual_licenses.click_on_read_buttom()
+    check_individual_licenses.open_doc_individual_licenses()
+    check_individual_licenses.assert_doc_individual_licenses_url()
+
+
+@allure.feature('Footer Links')
+@allure.severity('critical')
+@allure.story('Checking personal information document')
+def test_personal_information_doc(driver):
+    """
+    Test to check the personal information document
+    """
+    check_personal_information = FooterElement(driver)
+    check_personal_information.open()
+    check_personal_information.click_on_agreements_page()
+    check_personal_information.click_on_read_2_buttom()
+    check_personal_information.open_doc_personal_information()
+    check_personal_information.text_checking()
+    check_personal_information.assert_doc_personal_information_url()
+
+
+@allure.feature('Footer Links')
+@allure.severity('critical')
+@allure.story('Checking documents by date')
+def test_checking_documents_by_date(driver):
+    """
+    Test to verify the documents by date
+    """
+    check_documents = FooterElement(driver)
+    check_documents.open()
+    check_documents.click_on_agreements_page()
+    check_documents.click_on_read_2_buttom()
+    check_documents.assert_text_checking_date()
+    check_documents.click_on_date_2()
+    check_documents.assert_text_checking_date_2()
+    check_documents.click_on_date_3()
+    check_documents.assert_text_checking_date_3()
+
+
+@allure.feature('Footer Links')
+@allure.severity('critical')
+@allure.story('Checking access rules document')
+def test_access_rules_doc(driver):
+    """
+    Test to verify the access rules document
+    """
+    # Тело теста...
+    check_access_rules_document = FooterElement(driver)
+    check_access_rules_document.open()
+    check_access_rules_document.click_on_agreements_page()
+    check_access_rules_document.click_on_read_buttom_3()
+    check_access_rules_document.open_doc_access_rules()
+    check_access_rules_document.assert_doc_access_rules_url()
+
+
+@allure.feature('Footer Links')
+@allure.severity('critical')
+@allure.story('Checking legal documents on the personal information page')
+def test_checking_legal_documents_personal_information_page(driver):
+    """
+    Test to check legal documents on the personal information page
+    """
+    legal_documents_personal_information = FooterElement(driver)
+    legal_documents_personal_information.open()
+    legal_documents_personal_information.click_on_legal_documents_page()
+    legal_documents_personal_information.click_on_read_buttom_access_rules()
+    legal_documents_personal_information.assert_access_rules_url()
+    legal_documents_personal_information.click_on_date_2_access()
+    legal_documents_personal_information.assert_access_rules_url_1()
+    legal_documents_personal_information.click_on_date_3_access()
+    legal_documents_personal_information.assert_access_rules_url_2()
+
+
+@allure.feature('Footer Links')
+@allure.severity('critical')
+@allure.story('Checking legal documents on the personal information page - 2')
+def test_checking_legal_documents_personal_information_page_2(driver):
+    """
+    Another test to check legal documents on the personal information page
+    """
+    legal_documents_personal_information = FooterElement(driver)
+    legal_documents_personal_information.open()
+    legal_documents_personal_information.click_on_legal_documents_page()
+    legal_documents_personal_information.click_on_read_buttom_2_access_rules()
+    legal_documents_personal_information.open_doc_access_rules_page_2()
+    legal_documents_personal_information.assert_access_rules_and_alement_url_2()

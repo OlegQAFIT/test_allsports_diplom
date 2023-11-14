@@ -2,6 +2,7 @@ from tkinter.tix import Select
 import re
 from charset_normalizer import detect
 from selenium.common import WebDriverException
+from selenium.common import WebDriverException, ElementClickInterceptedException
 from selenium.webdriver import ActionChains, Keys
 from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.support.wait import WebDriverWait
@@ -206,6 +207,11 @@ class BasePage:
         else:
             raise Exception(f"Недопустимый индекс окна: {index}")
 
+
+
+    def switch_to_new_window(self):
+        self.driver.switch_to.window(self.driver.window_handles[1])
+
     # Закрытие текущего окна
     # Закрытие текущего окна
     def close_current_window(self):
@@ -279,6 +285,13 @@ class BasePage:
     # Переключение на основной контент страницы
     def switch_to_default_content(self):
         self.driver.switch_to.default_content()
+
+    def is_element_clickable(driver, element):
+        try:
+            element.click()
+            return True
+        except ElementClickInterceptedException:
+            return False
 
     """
     Другие действия с элементами:
