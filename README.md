@@ -8,7 +8,7 @@ elements. The project can be run in three browsers: Chrome and Edge and Opera. D
 this project is the page object model. Each page is presented separately
 and contains the following:
 
-*data for API testing
+* data for API testing
 * elements (header and footer)
 * helpers with basic methods for pages
 * element locators for pages
