@@ -112,7 +112,7 @@ class FooterElement(BasePage, FooterLocators):
 
     @allure.step("Assert text in Legal 'Documents' page")
     def assert_text_in_page_documents(self):
-        self.assert_element_text_equal(self.DOCUMENTS_FOR_LEGAL_ENTITIES, 'Документы для юридических лиц')
+        self.assert_element_text_equal(self.ELEMENT_IN_PERSONAL_INFORMATION, 'Политика в отношении обработки персональных данных')
 
     @allure.step("Assert element")
     def assert_element(self):
